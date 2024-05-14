@@ -2,7 +2,7 @@ import sympy
 import random
 import hashlib
 
-#def extended_gcd_recursive(a, b):
+#def _extended_gcd_recursive(a, b):
 #    def aux(a, b):
 #        if b == 0:
 #            return a, 1, 0 # a * 1 + b * 0 = a (base step of induction)
@@ -20,7 +20,7 @@ import hashlib
 #    return aux(a, b)
 
 # a * x + b * y = gcd
-# def extended_gcd_non_tail_recursive(a, b):
+# def _extended_gcd_non_tail_recursive(a, b):
 #     def aux(a, b, gcd, x, y):
 #         if b == 0:
 #             return gcd, x, y
@@ -30,7 +30,7 @@ import hashlib
 #     return aux(a, b, a, 1, 0)
 
 # Wikipedia algorithm for extended Euclidean algorithm
-def extended_gcd(a, b):
+def _extended_gcd(a, b):
     old_r, r = a, b
     old_s, s = 1, 0
     old_t, t = 0, 1
@@ -43,7 +43,7 @@ def extended_gcd(a, b):
     
     return old_r, old_s, old_t
 
-def jacobi_symbol(a, n):
+def _jacobi_symbol(a, n):
     if n < 0 or not n % 2:
         raise ValueError("n should be an odd positive integer")
     if a < 0 or a > n:
@@ -73,13 +73,13 @@ def jacobi_symbol(a, n):
         a %= n
     return j
 
-def generate_rabin_prime(bits):
+def _generate_rabin_prime(bits):
     while True:
         p = sympy.randprime(2**(bits-1), 2**bits)
         if p % 4 == 3:
             return p
 
-def hash_function(message):
+def _hash_function(message):
     return int(hashlib.sha256(message.encode()).hexdigest(), 16)
 
 def key_generation(bits):
@@ -88,10 +88,10 @@ def key_generation(bits):
     Input: bits - the number of bits in the primes p and q
     Output: n - the public key, (p, q) - the private key
     '''
-    p = generate_rabin_prime(bits)
-    q = generate_rabin_prime(bits)
+    p = _generate_rabin_prime(bits)
+    q = _generate_rabin_prime(bits)
     while p == q:
-        q = generate_rabin_prime(bits)
+        q = _generate_rabin_prime(bits)
     n = p*q
     
     return n, (p, q)
@@ -109,11 +109,11 @@ def sign(message, private_key, k=128):
 
     while True:
         u = str(random.getrandbits(k))
-        c = hash_function(message + u) % n
+        c = _hash_function(message + u) % n
 
         # check x^2 = c mod n, this will be true if
         # c is a quadratic residue mod p and mod q.
-        if jacobi_symbol(c, p) != 1 or jacobi_symbol(c, q) != 1:
+        if _jacobi_symbol(c, p) != 1 or _jacobi_symbol(c, q) != 1:
             continue
 
         # find x_p^2 = c mod p and x_q^2 = c mod q
@@ -129,7 +129,7 @@ def sign(message, private_key, k=128):
         x_p = pow(c, (p+1)//4, p) # known formula
         x_q = pow(c, (q+1)//4, q) # known formula
 
-        _, y_p, y_q = extended_gcd(p, q)
+        _, y_p, y_q = _extended_gcd(p, q)
         x = (x_p*q*y_q + x_q*p*y_p) % n
         return x, u
 
@@ -143,5 +143,22 @@ def verify(message, signature, public_key):
     '''
     n = public_key
     x, u = signature
-    c = hash_function(message + u) % n
+    c = _hash_function(message + u) % n
     return pow(x, 2, n) == c
+
+def _main():
+    bits = 512
+    k = 60
+    message = str(input("Enter a message: "))
+
+    n, private_key = key_generation(bits)
+    print("Public key:", n)
+    print("Private key:", private_key)
+
+    signature = sign(message, private_key, k)
+    print("Signature:", signature)
+
+    print("Verification:", verify(message, signature, n))
+
+if __name__ == "__main__":
+    _main()
