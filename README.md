@@ -1,2 +1,1 @@
-# ECRYPT_Project_V5
-Python Implementation of Rabin Digital Signature
+# Python Implementation of Rabin Digital Signature
