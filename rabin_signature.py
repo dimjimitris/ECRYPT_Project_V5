@@ -111,7 +111,7 @@ def sign(message, private_key, k=128):
         u = str(random.getrandbits(k))
         c = _hash_function(message + u) % n
 
-        # check x^2 = c mod n, this will be true if
+        # check x^2 = c mod n, this will be true iff
         # c is a quadratic residue mod p and mod q.
         if _jacobi_symbol(c, p) != 1 or _jacobi_symbol(c, q) != 1:
             continue
