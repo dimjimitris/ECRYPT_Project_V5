@@ -31,13 +31,14 @@ class TestRabinSignature(unittest.TestCase):
             self.assertEqual(len(private_key), 2)  # Check if private_key has 2 elements
 
     def test_sign_and_verify(self):
-        for message in self.message_list:
-            n, private_key = key_generation(self.bits)
-            public_key = n
-            signature = sign(message, private_key, self.k)
-            self.assertIsInstance(signature, tuple) # Check if signature is a tuple
-            self.assertEqual(len(signature), 2) # Check if signature has 2 elements
-            self.assertTrue(verify(message, signature, public_key))  # Check if signature is valid
+        for _ in range(10):
+            for message in self.message_list:
+                n, private_key = key_generation(self.bits)
+                public_key = n
+                signature = sign(message, private_key, self.k)
+                self.assertIsInstance(signature, tuple) # Check if signature is a tuple
+                self.assertEqual(len(signature), 2) # Check if signature has 2 elements
+                self.assertTrue(verify(message, signature, public_key))  # Check if signature is valid
 
 if __name__ == "__main__":
     random.seed(17)
