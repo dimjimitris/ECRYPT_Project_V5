@@ -2,22 +2,32 @@ import sympy
 import random
 import hashlib
 
-def extended_gcd_recursive(a, b):
-    def aux(a, b):
-        if b == 0:
-            return a, 1, 0 # a * 1 + b * 0 = a (base step of induction)
-        else:
-            gcd, x, y = aux(b, a % b) # b * x + (a % b) * y = gcd
-                                      # (hypothesis of induction)
-            # Prove (induction step):
-            # a * y + b * (x - (a // b) * y) = gcd
-            # a * y + b * x - b * (a // b) * y = gcd
-            # a * y + b * x - (a - a % b) * y = gcd
-            # a * y + b * x - a * y + (a % b) * y = gcd
-            # b * x + (a % b) * y = gcd, which is true
-            return gcd, y, x - (a // b) * y
-        
-    return aux(a, b)
+#def extended_gcd_recursive(a, b):
+#    def aux(a, b):
+#        if b == 0:
+#            return a, 1, 0 # a * 1 + b * 0 = a (base step of induction)
+#        else:
+#            gcd, x, y = aux(b, a % b) # b * x + (a % b) * y = gcd
+#                                      # (hypothesis of induction)
+#            # Prove (induction step):
+#            # a * y + b * (x - (a // b) * y) = gcd
+#            # a * y + b * x - b * (a // b) * y = gcd
+#            # a * y + b * x - (a - a % b) * y = gcd
+#            # a * y + b * x - a * y + (a % b) * y = gcd
+#            # b * x + (a % b) * y = gcd, which is true
+#            return gcd, y, x - (a // b) * y
+#        
+#    return aux(a, b)
+
+# a * x + b * y = gcd
+# def extended_gcd_non_tail_recursive(a, b):
+#     def aux(a, b, gcd, x, y):
+#         if b == 0:
+#             return gcd, x, y
+#         else:
+#             return aux(b, a % b, gcd, y, x - (a // b) * y)
+#         
+#     return aux(a, b, a, 1, 0)
 
 # Wikipedia algorithm for extended Euclidean algorithm
 def extended_gcd(a, b):
