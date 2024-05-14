@@ -9,6 +9,47 @@ Dimitrios Georgousis
 ## Project Topic
 V.5 Rabin Digital Signature
 
+## Environment
+- Development: Windows 11 Pro 64-bit
+```shell
+PS > python --version
+Python 3.12.1
+PS > pip show sympy
+Name: sympy
+Version: 1.12
+Summary: Computer algebra system (CAS) in Python
+Home-page: https://sympy.org
+Author: SymPy development team
+Author-email: sympy@googlegroups.com
+License: BSD
+Location: %%%
+Requires: mpmath
+Required-by: torch
+```
+- Testing:
+```bash
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.4 LTS
+Release:        22.04
+Codename:       jammy
+$ python3 --version
+Python 3.10.12
+$ pip show sympy
+Name: sympy
+Version: 1.12
+Summary: Computer algebra system (CAS) in Python
+Home-page: https://sympy.org
+Author: SymPy development team
+Author-email: sympy@googlegroups.com
+License: BSD
+Location: %%%
+Requires: mpmath
+Required-by:
+```
+As required by the project description our program was tested and works in `Python 3.10` environments.
+
 ## Usage
 To use this implementation, follow these steps:
 1. Clone the repository.
