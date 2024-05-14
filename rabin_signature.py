@@ -19,16 +19,6 @@ import hashlib
 #        
 #    return aux(a, b)
 
-# a * x + b * y = gcd
-# def _extended_gcd_non_tail_recursive(a, b):
-#     def aux(a, b, gcd, x, y):
-#         if b == 0:
-#             return gcd, x, y
-#         else:
-#             return aux(b, a % b, gcd, y, x - (a // b) * y)
-#         
-#     return aux(a, b, a, 1, 0)
-
 # Wikipedia algorithm for extended Euclidean algorithm
 def _extended_gcd(a, b):
     old_r, r = a, b
