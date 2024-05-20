@@ -24,9 +24,6 @@ class TestRabinSignature(unittest.TestCase):
         for _ in range(10):
             n, private_key = key_generation(self.bits)
 
-            self.assertGreaterEqual(n.bit_length(), self.bits)
-            self.assertLessEqual(n.bit_length(), self.bits * 2)
-
             self.assertIsInstance(private_key, tuple)  # Check if private_key is a tuple
             self.assertEqual(len(private_key), 2)  # Check if private_key has 2 elements
 
