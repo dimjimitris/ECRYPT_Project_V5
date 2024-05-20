@@ -10,7 +10,6 @@ Dimitrios Georgousis
 V.5 Rabin Digital Signature
 
 ## Environment
-- Testing:
 ```bash
 $ lsb_release -a
 No LSB modules are available.
@@ -39,7 +38,7 @@ To use this implementation, follow these steps:
 1. Clone the repository.
 2. Install the required dependencies.
 3. Run `test.py` to observe the results of some testing we did on our algorithms
-4. `rabin_signature.py` contains the functions used for key generation, signing and verifying.
+4. `rabin_signature.py` contains the functions used for key generation, signing and verifying. By running this file you can use a simple program which utilizes our functions with a fixed seed so that results are reproducible.
 
 ## Rabin Signature API
 
