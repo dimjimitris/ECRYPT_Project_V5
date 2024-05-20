@@ -10,22 +10,6 @@ Dimitrios Georgousis
 V.5 Rabin Digital Signature
 
 ## Environment
-- Development: Windows 11 Pro 64-bit
-```shell
-PS > python --version
-Python 3.12.1
-PS > pip show sympy
-Name: sympy
-Version: 1.12
-Summary: Computer algebra system (CAS) in Python
-Home-page: https://sympy.org
-Author: SymPy development team
-Author-email: sympy@googlegroups.com
-License: BSD
-Location: %%%
-Requires: mpmath
-Required-by: torch
-```
 - Testing:
 ```bash
 $ lsb_release -a
@@ -44,7 +28,7 @@ Home-page: https://sympy.org
 Author: SymPy development team
 Author-email: sympy@googlegroups.com
 License: BSD
-Location: %%%
+Location: /home/dimjimitris/.local/lib/python3.10/site-packages
 Requires: mpmath
 Required-by:
 ```
@@ -74,16 +58,16 @@ The `hash function` and parameter `k` (controls size of random string appended t
 Prime numbers we use as private key: if `p` is such a prime then we select `p mod 4 = 3` or `4 | (p + 1)`.
 
 These primes come in handy, because the Rabin algorithm looks for quadratic residues modulo a prime. And we know that:
-if there exists `x` such that `x^2 mod p = c` then one such `x` is `x = c^((p + 1) / 4) mod p` (A).
+if there exists `x` such that `x^2 mod p = c` then one such `x` is `x = c^((p + 1) / 4) mod p` if `p mod 4 = 3` (A).
 
 - Key generation: key generation function is nothing special. We produce 2 primes that leave remainder 3 when divided by 4. These primes are the private key and their product is the public key.
 - Signing:
     1. produce random string `u` of length `k` bits
     2. append `u` at the end of message `message`
     3. calculate the hash value of this string, let's call it `c`
-    4. Check if `c` is a q.r. modulo `n`, where `n` is the public key. To do this we can, equivalently, check if `c` is a q.r. `mod p` and `mod q` where `p`, `q` are the private key. We do we evaluate the Jacobi Symbol. If c is not a q.r. modulo `n` then we go back to step (1.), otherwise, we continue. (It will take about 4 tries to satisfy this criterion)
+    4. Check if `c` is a q.r. modulo `n`, where `n` is the public key. To do this we can, equivalently, check if `c` is a q.r. `mod p` and `mod q` where `p`, `q` are the private key. We do this by evaluating the Jacobi Symbol. If c is not a q.r. modulo `n` then we go back to step (1.), otherwise, we continue. (It will take about 4 tries to satisfy this criterion)
     5. Find `x` such that `x^2 mod n = c`.
-        1. First we find `x_p`, `x_q` such that `x_p^2 mod p = c` and `x_q^2 mod q = c`
+        1. First we find `x_p`, `x_q` such that `x_p^2 mod p = c` and `x_q^2 mod q = c` (using formula (A))
         2. We are looking for `a`, `b` such that `a = 1 mod p`, `a = 0 mod q`, `b = 0 mod p`, `b = 1 mod q`. Then `x = a * x_p + b * x_q` will be a solution to our original problem.
         3. How do we find them?
             1. Solve CRT for: `x = x_p mod p` and `x = x_q mod q`.
@@ -92,7 +76,7 @@ if there exists `x` such that `x^2 mod p = c` then one such `x` is `x = c^((p + 
             4. Test if `a = q * y_q` and `b = p * y_p` satisfy the previous conditions. We can easily observe that they do.
         4. Thus, the solution is `x = (q * y_q) * x_p + (p * y_p) * x_q mod n`
     6. We return the signature `(x, u)`
-- Verification: Verification isn't anything special. We compute `x^2` and `c = hash of message + u` and compare the two modulo `n`, where `n` is the public key.
+- Verification: Verification isn't anything special. We compute `x^2` and `c = hash of (message + u)` and compare the two modulo `n`, where `n` is the public key.
 
 The safety of this signature system lies with the fact that solving `x^2 = c mod n` when the factorization of `n` is not known is equivalent to integer factorization of `n` which is a hard problem.
 
