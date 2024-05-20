@@ -156,7 +156,7 @@ def verify(message, signature, public_key):
 
 
 def _main():
-
+    random.seed(17)
     bits = 512
     k = 64
     message = str(input("Enter a message: "))
