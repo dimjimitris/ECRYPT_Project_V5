@@ -86,7 +86,7 @@ if there exists `x` such that `x^2 mod p = c` then one such `x` is `x = c^((p + 
 The safety of this signature system lies with the fact that solving `x^2 = c mod n` when the factorization of `n` is not known is equivalent to integer factorization of `n` which is a hard problem.
 
 ## Libraries
-We make use of `sympy` and `hashlib`. `hashlib` is simply used to get a hash function for our messages (which is another project topic thus was not implemented specifically for this project) and `sympy` is used to generate random prime numbers in the key generation part of our algorithm. There are many ways to implement such a generator and some of them have varying complexity, which seems outside the scope of this project. We focus only on the Rabin Digital Signature Scheme.
+We make use of `sympy` and `hashlib`. `hashlib` is simply used to get a hash function for our messages (which is another project topic thus was not implemented specifically for this project) and `sympy` is used to generate random prime numbers in the key generation part of our algorithm. There are many ways to implement such a generator and some of them have varying complexity, which seems outside the scope of this project. We make use of `sympy`’s `igcd()` function which calculates the gcd of two integers, but we  have already demonstrated the gcd algorithm in the `_extended_gcd()` function, thus did not reimplement it. We focus only on the Rabin Digital Signature Scheme.
 
 ## Testing
 The Rabin Digital Signature Scheme depends on the random string `u` appended to the `message` and the hash function used. I could not find any test vectors for this thus testing happens in the following way: a key is generated -> message is signed using the key -> message is verified.
