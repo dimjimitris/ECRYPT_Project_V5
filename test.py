@@ -32,8 +32,8 @@ class TestRabinSignature(unittest.TestCase):
 
     def test_sign_and_verify(self):
         for _ in range(10):
+            n, private_key = key_generation(self.bits)
             for message in self.message_list:
-                n, private_key = key_generation(self.bits)
                 public_key = n
                 signature = sign(message, private_key, self.k)
                 # Check if signature is a tuple

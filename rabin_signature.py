@@ -167,7 +167,8 @@ def _main():
 
     signature = sign(message, private_key, k)
     x, u = signature
-    print(f"Square root: {x}, Random string: {u}")
+    print(f"Square root: {x}")
+    print(f"Random string: {u}")
 
     print("Verification:", verify(message, signature, n))
 

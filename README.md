@@ -33,12 +33,18 @@ Required-by:
 ```
 As required by the project description our program was tested and works in `Python 3.10` environments.
 
+Required packages can be installed with:
+```bash
+pip install -r requirements.txt
+```
+
 ## Usage
 To use this implementation, follow these steps:
 1. Clone the repository.
 2. Install the required dependencies.
 3. Run `test.py` to observe the results of some testing we did on our algorithms
-4. `rabin_signature.py` contains the functions used for key generation, signing and verifying. By running this file you can use a simple program which utilizes our functions with a fixed seed so that results are reproducible.
+4. Run `tests_with_output.py` to see some simple messages and the outputs of our algorithm.
+5. `rabin_signature.py` contains the functions used for key generation, signing and verifying. By running this file you can use a simple program which utilizes our functions with a fixed seed so that results are reproducible. You input a text message and a signature is produced and verified for it.
 
 ## Rabin Signature API
 
@@ -78,6 +84,17 @@ if there exists `x` such that `x^2 mod p = c` then one such `x` is `x = c^((p + 
 - Verification: Verification isn't anything special. We compute `x^2` and `c = hash of (message + u)` and compare the two modulo `n`, where `n` is the public key.
 
 The safety of this signature system lies with the fact that solving `x^2 = c mod n` when the factorization of `n` is not known is equivalent to integer factorization of `n` which is a hard problem.
+
+## Libraries
+We make use of `sympy` and `hashlib`. `hashlib` is simply used to get a hash function for our messages (which is another project topic thus was not implemented specifically for this project) and `sympy` is used to generate random prime numbers in the key generation part of our algorithm. There are many ways to implement such a generator and some of them have varying complexity, which seems outside the scope of this project. We focus only on the Rabin Digital Signature Scheme.
+
+## Testing
+The Rabin Digital Signature Scheme depends on the random string `u` appended to the `message` and the hash function used. I could not find any test vectors for this thus testing happens in the following way: a key is generated -> message is signed using the key -> message is verified.
+
+Our algorithm can be tested as follows:
+- `test.py` file contains a lot of messages (more than 7). We generate a private and public key and test all messages using these keys. We repeat this process 10 times (`test_sign_and_verify()`).
+- `tests_with_output.py` tests some messages and output the keys, signatures and verification results in the console.
+- `rabin_signature.py` when executed simply takes a message as input from the console. Then creates a private/public key, sings the message and verifies. All this behaviour is tracked on the console output.
 
 ## References
 For more information about the Rabin digital signature algorithm, refer to the following resources:
